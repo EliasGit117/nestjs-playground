@@ -1,4 +1,4 @@
-import { Controller, Get, Res } from "@nestjs/common";
+import { Controller, Get, Req, Res } from "@nestjs/common";
 
 @Controller()
 export class AppController {
@@ -9,7 +9,9 @@ export class AppController {
   }
 
   @Get("test")
-  test() {
+  test(@Req() res: Response) {
+    res.headers.set('callback', 'UPDATE_USER');
+
     return { message: 'Oh, hi Mark!' };
   }
 }

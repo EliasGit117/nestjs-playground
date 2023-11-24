@@ -1,11 +1,22 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 import { AuthController } from "./auth.controller";
-import { PrismaService } from "../shared/services/prisma.service";
-import { SharedModule } from "../shared/shared.module";
+import { CreateNewProfileCommandHandler } from "./commands/create-new-profile.command";
+import { CqrsModule } from "@nestjs/cqrs";
+import { UserModule } from "../user/user.module";
+
+export const commandHandlers = [
+  CreateNewProfileCommandHandler
+];
 
 @Module({
-  imports: [SharedModule],
+  imports: [
+    CqrsModule,
+    UserModule
+  ],
   controllers: [AuthController],
-  providers: []
+  providers: [
+    ...commandHandlers,
+  ]
 })
-export class AuthModule {}
+export class AuthModule {
+}

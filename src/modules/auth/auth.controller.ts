@@ -1,31 +1,30 @@
-import { Controller, Get } from "@nestjs/common";
-import { PrismaService } from "../shared/services/prisma.service";
+import { Body, Controller, Get, Post } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
+import { CommandBus } from "@nestjs/cqrs";
+import { CreateNewProfileDto } from "./dtos/create-new-profile.dto";
+import { CreateNewProfileCommand } from "./commands/create-new-profile.command";
 
+@ApiTags('auth')
 @Controller("auth")
 export class AuthController {
 
-  constructor(private prisma: PrismaService) {
-  }
+  constructor(
+    private readonly commandBus: CommandBus
+  ) {}
 
   @Get("sign-in")
   signIn() {
     return { message: "Signed In" };
   }
 
-  @Get("sign-up")
-  signUp() {
-    return { message: "Signed Up" };
+  @Post("sign-up")
+  signUp(@Body() profile: CreateNewProfileDto) {
+    return this.commandBus.execute(new CreateNewProfileCommand(profile));
   }
 
   @Get("test-prisma")
   async testPrisma() {
-    return this.prisma.user.create({
-      data: {
-        email: "test",
-        name: "test",
-        password: "test"
-      }
-    });
+
   }
 
   @Get("role")
