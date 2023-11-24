@@ -22,11 +22,6 @@ export class AuthController {
     return this.commandBus.execute(new CreateNewProfileCommand(profile));
   }
 
-  @Get("test-prisma")
-  async testPrisma() {
-
-  }
-
   @Get("role")
   getRole() {
     return {

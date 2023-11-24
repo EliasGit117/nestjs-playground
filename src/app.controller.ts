@@ -9,9 +9,7 @@ export class AppController {
   }
 
   @Get("test")
-  test(@Req() res: Response) {
-    res.headers.set('callback', 'UPDATE_USER');
-
+  test() {
     return { message: 'Oh, hi Mark!' };
   }
 }
