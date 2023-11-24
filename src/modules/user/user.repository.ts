@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { User } from "./user.model";
+import { User, UserDoc } from "./models/user.model";
 
 @Injectable()
 export class UserRepository {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>
-  ) {}
+  ) {
+  }
 
   public async insertOne(data: {
     email: string,
@@ -15,5 +16,9 @@ export class UserRepository {
     password: string
   }) {
     return new this.userModel({ ...data }).save();
+  }
+
+  async getAll(): Promise<UserDoc[]> {
+    return this.userModel.find();
   }
 }

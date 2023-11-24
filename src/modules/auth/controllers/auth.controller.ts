@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CommandBus } from "@nestjs/cqrs";
-import { CreateNewProfileDto } from "./dtos/create-new-profile.dto";
-import { CreateNewProfileCommand } from "./commands/create-new-profile.command";
+import { CreateNewProfileDto } from "../dtos/create-new-profile.dto";
+import { CreateNewUserCommand } from "../../user/commands/create-new-user.command";
 
 @ApiTags('auth')
 @Controller("auth")
@@ -19,7 +19,7 @@ export class AuthController {
 
   @Post("sign-up")
   signUp(@Body() profile: CreateNewProfileDto) {
-    return this.commandBus.execute(new CreateNewProfileCommand(profile));
+    return this.commandBus.execute(new CreateNewUserCommand(profile));
   }
 
   @Get("role")

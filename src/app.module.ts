@@ -8,9 +8,9 @@ import * as process from "process";
 
 @Module({
   imports: [
-    AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.DATABASE_URL),
+    AuthModule,
     UserModule
   ],
   controllers: [AppController],
