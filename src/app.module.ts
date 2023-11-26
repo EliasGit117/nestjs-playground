@@ -4,16 +4,21 @@ import { AuthModule } from "./modules/auth/auth.module";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { UserModule } from "./modules/user/user.module";
-import * as process from "process";
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.DATABASE_URL),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        uri: config.get<string>("DATABASE_URL")
+      })
+    }),
     AuthModule,
     UserModule
   ],
   controllers: [AppController],
   providers: []
 })
-export class AppModule {}
+export class AppModule {
+}

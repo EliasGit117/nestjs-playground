@@ -1,21 +1,20 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { BadRequestException, ValidationPipe } from "@nestjs/common";
+import { ValidationPipe } from "@nestjs/common";
 import IValidationError from "./modules/shared/interfaces/validation-error";
 import values from "lodash/values";
+import { FormValidationException } from "./modules/shared/exceptions/bad-request.exception.ts";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   //_Pipes______________________________________________________________________________________________________________
   app.useGlobalPipes(new ValidationPipe({
-    exceptionFactory: (errors) => new BadRequestException(
-      errors.map((error): IValidationError => ({
-        property: error.property,
-        messages: values(error.constraints)
-      }))
-    ),
+    exceptionFactory: (errors) => new FormValidationException(errors.map((error): IValidationError => ({
+      property: error.property,
+      messages: values(error.constraints)
+    })))
   }));
 
   //_Swagger____________________________________________________________________________________________________________

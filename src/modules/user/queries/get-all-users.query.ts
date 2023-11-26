@@ -1,6 +1,6 @@
 import { QueryHandler } from "@nestjs/cqrs";
 import { Query, IInferredQueryHandler } from "@nestjs-architects/typed-cqrs";
-import { UserRepository } from "../user.repository";
+import { UserRepository } from "../repositories/user.repository";
 import { UserDoc } from "../models/user.model";
 
 export class GetAllUsersQuery extends Query<UserDoc[]> {
@@ -14,7 +14,7 @@ export class GetAllUsersQueryHandler implements IInferredQueryHandler<GetAllUser
 
   constructor(private readonly userRepo: UserRepository) {}
 
-  async execute(query: GetAllUsersQuery): Promise<UserDoc[]> {
+  async execute(): Promise<UserDoc[]> {
     return await this.userRepo.getAll();
   }
 }

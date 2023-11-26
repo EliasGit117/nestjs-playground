@@ -1,20 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsString, MaxLength, maxLength, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 
-export class CreateNewProfileDto {
+export class SignInBodyDto {
 
-  @ApiProperty()
-  @IsString({ message: "Please use text" })
-  @IsNotEmpty({ message: "Username cannot be empty" })
-  username: string;
-
-  @ApiProperty()
+  @ApiProperty({ name: 'email', example: 'JohnDoe47@gmail.com'  })
   @IsString({ message: "Please use text" })
   @IsNotEmpty({ message: "Email cannot be empty" })
   @IsEmail(undefined, { message: "Please enter valid email" })
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({ name: 'password'})
   @IsString({ message: "Please use text" })
   @MinLength(4, { message: 'Minimal length is 4' })
   @MaxLength(42, { message: 'Maximal length is 4' })

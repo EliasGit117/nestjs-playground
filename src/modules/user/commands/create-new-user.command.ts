@@ -1,12 +1,12 @@
 import { CommandHandler } from "@nestjs/cqrs";
-import { CreateNewProfileDto } from "../../auth/dtos/create-new-profile.dto";
+import { SignUpBodyDto } from "../../auth/dtos/sign-up-body.dto";
 import { Command } from "@nestjs-architects/typed-cqrs";
 import { IInferredCommandHandler } from "@nestjs/cqrs/dist/command-bus";
-import { UserRepository } from "../user.repository";
+import { UserRepository } from "../repositories/user.repository";
 import { User } from "../models/user.model";
 
 export class CreateNewUserCommand extends Command<User> {
-  constructor(public readonly profile: CreateNewProfileDto) {
+  constructor(public readonly profile: SignUpBodyDto) {
     super();
   }
 }

@@ -1,24 +1,16 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from "@nestjs/mongoose";
 import { User, UserSchema } from "./models/user.model";
-import { UserRepository } from "./user.repository";
+import { UserRepository } from "./repositories/user.repository";
 import { CqrsModule } from "@nestjs/cqrs";
 import { UserController } from "./controllers/user.controller";
 import { GetAllUsersQueryHandler } from "./queries/get-all-users.query";
 import { CreateNewUserCommandHandler } from './commands/create-new-user.command';
+import { GetUserByIdQueryHandler } from "./queries/get-user-by-id.query";
 
-const injectablesToExport = [
-  UserRepository
-];
-
-const queryHandlers = [
-  GetAllUsersQueryHandler
-];
-
-const commandHandlers = [
-  CreateNewUserCommandHandler
-];
-
+const injectablesToExport = [UserRepository];
+const queryHandlers = [GetAllUsersQueryHandler, GetUserByIdQueryHandler];
+const commandHandlers = [CreateNewUserCommandHandler];
 const toProvideAndExport = [
   ...injectablesToExport,
   ...commandHandlers,

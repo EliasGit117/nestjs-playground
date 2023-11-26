@@ -9,8 +9,7 @@ export class UserController {
 
   constructor(
     private readonly queryBus: QueryBus
-  ) {
-  }
+  ) {}
 
   @Get()
   getAll() {
