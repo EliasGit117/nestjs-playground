@@ -29,7 +29,7 @@ export class SignUpCommandHandler implements IInferredCommandHandler<SignUpComma
 
     const user = await this.userRepo.insertOne({ ...signUpData });
 
-    const session = await this.commandBus.execute(new CreateSessionCommand(user.id, request.ip, request.hostname));
+    const session = await this.commandBus.execute(new CreateSessionCommand(user.id, request.ip, request.headers["user-agent"]));
 
     const tokens = await this.commandBus.execute(new GetTokenPairCommand(user, session.id));
     return { ...tokens, user: user };

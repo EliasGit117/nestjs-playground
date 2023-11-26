@@ -40,7 +40,7 @@ export class SignInCommandHandler implements IInferredCommandHandler<SignInComma
     if (!(await bcrypt.compare(password, user.password)))
       throw new BadRequestException(this.errorMsg);
 
-    const session = await this.commandBus.execute(new CreateSessionCommand(user.id, request.ip, request.hostname));
+    const session = await this.commandBus.execute(new CreateSessionCommand(user.id, request.ip, request.headers["user-agent"]));
 
     const tokens = await this.commandBus.execute(new GetTokenPairCommand(user, session.id));
 
